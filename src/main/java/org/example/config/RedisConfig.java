@@ -21,5 +21,4 @@ public class RedisConfig {
         public String getConnectURL(){
             return  "redis://"+host + ":" + port;
         }
-
 }
