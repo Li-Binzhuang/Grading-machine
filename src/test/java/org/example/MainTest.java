@@ -26,15 +26,9 @@ public class MainTest {
 
     @Autowired
     RedissonService redissonService;
-    @Test
-    public void testRedisson(){
-        RMap<String, String> map = redissonClient.getMap("myMap");
-        map.put("hh","nihao");
-    }
 
     @Test
     public void testRedissonService(){
-        redissonService.setSingleValue("ab ab","haha");
         System.out.println(redissonService.getSingleValue("ab ab"));
     }
 
