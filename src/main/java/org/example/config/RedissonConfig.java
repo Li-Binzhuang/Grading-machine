@@ -1,9 +1,12 @@
 package org.example.config;
 
 import lombok.Data;
+import org.example.Service.RedissonService;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:application.properties")
 public class RedissonConfig {
+    private static final Logger logger = LoggerFactory.getLogger(RedissonConfig.class);
 
     @Value("${redisson.threads}")
     private int threads;
@@ -39,6 +43,13 @@ public class RedissonConfig {
               .setConnectionPoolSize(connectionPoolSize)
               .setConnectionMinimumIdleSize(connectionMinimumIdleSize)
               .setConnectTimeout(connectTimeout);
-        return Redisson.create(config);
+        try{
+            RedissonClient redissonClient=Redisson.create(config);
+            logger.info("redis客户端初始化成功");
+            return redissonClient;
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 }

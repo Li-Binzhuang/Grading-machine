@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-
 @Service
 public class RedissonService {
 
-     private static final Logger logger = LoggerFactory.getLogger(RedissonService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedissonService.class);
 
     @Autowired
     private RedissonClient redissonClient;
