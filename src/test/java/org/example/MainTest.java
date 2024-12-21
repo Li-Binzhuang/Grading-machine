@@ -2,7 +2,6 @@ package org.example;
 
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.example.Service.RedissonService;
-import org.example.config.KafkaConfig;
 import org.example.config.RedisConfig;
 import org.example.config.RedissonConfig;
 import org.example.config.RocketMQConfig;
@@ -42,12 +41,4 @@ public class MainTest {
             logger.error(e.getMessage());
         }
     }
-
-    @Autowired
-
-    @Test
-    public void testKafka(){
-
-    }
-
 }
