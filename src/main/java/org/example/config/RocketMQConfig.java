@@ -22,9 +22,10 @@ public class RocketMQConfig {
     // RocketMQ服务地址（Name Server地址）
     @Value("${rocketmq.NAME_SERVER_ADDR}")
     private   String NAME_SERVER_ADDR;
+
     // RocketMQ消费组名称
     @Value("${rocketmq.CONSUMER_GROUP_NAME}")
-    private   String CONSUMER_GROUP_NAME;
+    private  String CONSUMER_GROUP_NAME;
 
     @Bean
     public DefaultMQPushConsumer rocketMQConsumer() throws MQClientException {
