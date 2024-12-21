@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.message.Message;
+import org.example.listener.RocketMQListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,25 +26,20 @@ public class RocketMQConfig {
     @Value("${rocketmq.CONSUMER_GROUP_NAME}")
     private   String CONSUMER_GROUP_NAME;
 
-
     @Bean
     public DefaultMQPushConsumer rocketMQConsumer() throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(CONSUMER_GROUP_NAME);
         consumer.setNamesrvAddr(NAME_SERVER_ADDR);
         try {
-            consumer.subscribe("Problem", "*"); // 订阅所有消息
+            consumer.subscribe("Problem", "*"); // 订阅关于问题的消息
             logger.info("消费者组已加入："+consumer.getConsumerGroup());
         } catch (MQClientException e) {
             throw new RuntimeException("Failed to subscribe topic.", e);
         }
-
         // 注册消息监听器
-        consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
-            for (Message msg : msgs) {
-                System.out.printf("Receive Message: %s %n", new String(msg.getBody()));
-            }
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-        });
+        //只需要监听一个消息类型一个消息队列
+        RocketMQListener listener = new RocketMQListener();
+        consumer.registerMessageListener(listener);
         return consumer;
     }
 }

@@ -33,6 +33,7 @@ public class RedissonConfig {
 
     @Autowired
     RedisConfig redisConfig;
+
     @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();

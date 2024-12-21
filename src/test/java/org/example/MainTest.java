@@ -2,12 +2,12 @@ package org.example;
 
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.example.Service.RedissonService;
+import org.example.config.KafkaConfig;
 import org.example.config.RedisConfig;
 import org.example.config.RedissonConfig;
 import org.example.config.RocketMQConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +41,13 @@ public class MainTest {
         } catch (MQClientException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    @Autowired
+
+    @Test
+    public void testKafka(){
+
     }
 
 }
