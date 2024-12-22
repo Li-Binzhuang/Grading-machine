@@ -2,9 +2,9 @@ package org.example;
 
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.example.Service.RedissonService;
-import org.example.config.RedisConfig;
-import org.example.config.RedissonConfig;
-import org.example.config.RocketMQConfig;
+import org.example.Config.RedisConfig;
+import org.example.Config.RedissonConfig;
+import org.example.Config.RocketMQConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;

@@ -1,4 +1,4 @@
-package org.example.config;
+package org.example.Config;
 //获取redis连接信息
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

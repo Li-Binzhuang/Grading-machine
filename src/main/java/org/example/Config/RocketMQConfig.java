@@ -1,8 +1,9 @@
-package org.example.config;
+package org.example.Config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.example.listener.RocketMQListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class RocketMQConfig {
     @Value("${rocketmq.CONSUMER_GROUP_NAME}")
     private  String CONSUMER_GROUP_NAME;
 
+    // 创建一个消费者实例用于消费来自生产者的题目消息
     @Bean
     public DefaultMQPushConsumer rocketMQConsumer() throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(CONSUMER_GROUP_NAME);
@@ -39,5 +41,21 @@ public class RocketMQConfig {
         RocketMQListener listener = new RocketMQListener();
         consumer.registerMessageListener(listener);
         return consumer;
+    }
+
+    @Bean
+    public DefaultMQProducer MQProducer(){
+        DefaultMQProducer producer = new DefaultMQProducer("system");
+        producer.setNamesrvAddr(NAME_SERVER_ADDR);
+        try {
+            producer.start();
+            while (true){
+
+                Thread.sleep(10000);//每隔10s发送一次消息
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return producer;
     }
 }
