@@ -32,4 +32,9 @@ public class LanguageConfig {
         this.maxMemory = maxMemory;
         this.needsCompilation = needsCompilation;
     }
+
+    public long getMaxExecutionTime() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getMaxExecutionTime'");
+    }
 }

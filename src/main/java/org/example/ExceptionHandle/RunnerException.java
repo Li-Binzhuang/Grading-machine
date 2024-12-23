@@ -1,4 +1,4 @@
-package org.example.pojo;
+package org.example.ExceptionHandle;
 
 public class RunnerException extends Exception {
     public RunnerException(String message) {
