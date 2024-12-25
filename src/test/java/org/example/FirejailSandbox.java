@@ -1,18 +1,44 @@
 package org.example;
 
-import org.example.pojo.TestCase;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
+class TestCase {
+    public String getInput() {
+        return input;
+    }
+    public String getExpectedOutput() {
+        return expectedOutput;
+    }
+    private final String input;
+    private final String expectedOutput;
+    public TestCase(String input, String expectedOutput) {
+        this.input = input;
+        this.expectedOutput = expectedOutput;
+    }
+}
 
 public class FirejailSandbox {
-
     public static void main(String[] args) throws IOException {
-        testCode("cpp", "#include <iostream>\n int main() { int a, b; std::cin >> a >> b; std::cout << a + b << std::endl; return 0; }", Arrays.asList(new TestCase("1 2", "3"), new TestCase("3 4", "7")));
-        testCode("java", "public class Main { public static void main(String[] args) { java.util.Scanner scanner = new java.util.Scanner(System.in); int a = scanner.nextInt(); int b = scanner.nextInt(); System.out.println(a + b); } }", Arrays.asList(new TestCase("1 2", "3"), new TestCase("3 4", "7")));
-        testCode("py", "a, b = map(int, input().split())\nprint(a + b)", Arrays.asList(new TestCase("1 2", "3"), new TestCase("3 4", "7")));
+        testCode("cpp", "#include <iostream>" +
+                "\n int main() {" +
+                " int a, b; std::cin >> a >> b; std::cout << a - b << std::endl; " +
+                "return 0; }", Arrays.asList(
+                        new TestCase("1 2", "3"),
+                        new TestCase("3 4", "7")));
+
+        testCode("java", "public class Main { " +
+                "public static void main(String[] args) { " +
+                "java.util.Scanner scanner = new java.util.Scanner(System.in); " +
+                "int a = scanner.nextInt(); int b = scanner.nextInt(); " +
+                "System.out.println(a - b); } }", Arrays.asList(
+                        new TestCase("1 2", "3"),
+                        new TestCase("3 4", "7")));
+
+        testCode("py", "a, b = map(int, input().split())\n" +
+                "print(a - b)", Arrays.asList(new TestCase("1 2", "3"),
+                        new TestCase("3 4", "7")));
 
     }
 
@@ -22,16 +48,13 @@ public class FirejailSandbox {
         Path codeFilePath=null;
 
         try {
-
             Process compileProcess = null;
             if (language.equals("cpp")) {
-
                 codeFilePath = Files.createFile(Paths.get("main.cpp"));//手动创建Main.java
                 binaryFilePath = Files.createFile(Paths.get("main.out"));
                 Files.write(codeFilePath, code.getBytes());
                 compileProcess = new ProcessBuilder("g++", codeFilePath.toString(), "-o", binaryFilePath.toString()).start();
                 executeCommand = binaryFilePath.toAbsolutePath().toString();
-
             } else if (language.equals("java")) {
 
                 codeFilePath = Files.createFile(Paths.get("Main.java"));//手动创建Main.java

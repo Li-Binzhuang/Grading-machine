@@ -1,4 +1,4 @@
-package org.example.listener;
+package org.example.Listener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
@@ -9,8 +9,6 @@ import java.util.List;
 
 @Slf4j
 public class RocketMQListener implements MessageListenerOrderly {
-
-
     @Override
     public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
         // 设置为暂停消费，直到当前消息被完全处理

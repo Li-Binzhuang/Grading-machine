@@ -34,6 +34,7 @@ public class LanguageConfigurationLoader {
         .enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+    //todo 需要去理解这个加载类怎么加载json并配置
     @PostConstruct
     public void loadConfigurations() throws IOException {
         File configFile = new File(configPath);
