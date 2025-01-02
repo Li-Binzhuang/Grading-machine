@@ -28,7 +28,6 @@ public class FirejailTest {
                 "    std::cout << \"Hello, World!\" << std::endl;\n" +
                 "    return 0;\n" +
                 "}";
-
         try {
             // 创建临时文件
             Path codeFilePath = Files.createTempFile("Main", ".cpp");

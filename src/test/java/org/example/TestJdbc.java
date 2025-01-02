@@ -1,6 +1,9 @@
 package org.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.BaseOptions.Impl.CppCompiler;
+import org.example.BaseOptions.Interface.CodeCompiler;
+import org.example.ExceptionHandle.CompileException;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -32,5 +35,15 @@ public class TestJdbc {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void func(CodeCompiler codeCompiler) throws CompileException {
+        System.out.println(codeCompiler.compile(null,null));
+    }
+
+    @Test
+    public void testJdbc() throws CompileException {
+        CppCompiler compiler = new CppCompiler(null,null);
+        func(compiler);
     }
 }

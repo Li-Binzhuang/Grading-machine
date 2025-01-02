@@ -49,6 +49,7 @@ public class MainTest {
 //            logger.error(e.getMessage());
 //        }
 //    }
+
     @Resource(name = "connection")
     Connection conn;
 
