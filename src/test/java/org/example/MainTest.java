@@ -16,7 +16,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.example.pojo.TestCase;
+import org.example.Repository.pojo.TestCase;
 
 
 @Slf4j

@@ -1,10 +1,8 @@
-package org.example.pojo;
+package org.example.Repository.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 //测试用例基类
 @Data

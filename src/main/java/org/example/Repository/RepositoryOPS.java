@@ -1,10 +1,10 @@
 package org.example.Repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.VO.RedisKey;
+import org.example.Repository.VO.RedisKey;
 import org.example.config.DataConfig;
 import org.example.domain.queryTestCase.queryTestCase;
-import org.example.pojo.TestCase;
+import org.example.Repository.pojo.TestCase;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -25,7 +25,7 @@ public class RepositoryOPS implements queryTestCase {
 
     //以题目唯一id作为查询问题的key
     @Override
-    public List<TestCase> queryTestCaseById(Integer id) throws Exception {
+    public List<TestCase> queryTestCaseByQuestionId(Integer id) throws Exception {
         //构造redisKey
         String key= RedisKey.TEST_CASE_KEY + id;
         List<TestCase> list = redissonService.getList(key);//从缓存获取测试用例

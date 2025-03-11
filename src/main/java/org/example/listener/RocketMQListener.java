@@ -5,7 +5,7 @@ import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.example.pojo.MQMessage;
+import org.example.listener.pojo.MQMessage;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package org.example.VO;
+package org.example.listener.VO;
 
 import lombok.Data;
 

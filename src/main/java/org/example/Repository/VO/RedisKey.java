@@ -1,4 +1,4 @@
-package org.example.VO;
+package org.example.Repository.VO;
 
 import lombok.Getter;
 

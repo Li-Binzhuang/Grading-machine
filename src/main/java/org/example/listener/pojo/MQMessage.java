@@ -1,8 +1,8 @@
-package org.example.pojo;
+package org.example.listener.pojo;
 
 import lombok.Data;
 import lombok.ToString;
-import org.example.VO.CodeType;
+import org.example.listener.VO.CodeType;
 
 import java.io.Serializable;
 /**

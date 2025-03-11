@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
-import org.example.VO.CodeType;
-import org.example.pojo.MQMessage;
+import org.example.listener.VO.CodeType;
+import org.example.listener.pojo.MQMessage;
 import org.junit.Test;
 
 @Slf4j
