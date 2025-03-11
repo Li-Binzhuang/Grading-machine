@@ -1,6 +1,7 @@
 package org.example.Repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.pojo.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.redisson.api.RBucket;
@@ -8,6 +9,8 @@ import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -145,5 +148,15 @@ public class RedissonService {
         } catch (Exception e) {
             log.error("Error clearing map: {}", e.getMessage(), e);
         }
+    }
+
+    public <T> List<T> getList(String key) {
+        RBucket<List<T>> bucket = redissonClient.getBucket(key);
+        return bucket.get();
+    }
+
+    public void setList(String key, List<TestCase> cases) {
+        RBucket<List<TestCase>> bucket=redissonClient.getBucket(key);
+        bucket.set(cases);
     }
 }

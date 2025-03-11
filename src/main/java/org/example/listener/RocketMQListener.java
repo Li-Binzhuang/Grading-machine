@@ -22,7 +22,8 @@ public class RocketMQListener implements MessageListenerOrderly {// 顺序消费
         try {
             for (MessageExt msg : msgs) {
                 MQMessage mqMessage = objectMapper.readValue(msg.getBody(), MQMessage.class);
-                log.info("获取的消息："+mqMessage.toString());
+                // 处理消息
+
             }
             return ConsumeOrderlyStatus.SUCCESS;
         } catch (Exception e) {

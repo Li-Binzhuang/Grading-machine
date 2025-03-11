@@ -1,4 +1,4 @@
-package org.example.pojo;
+package org.example.VO;
 
 public enum Results {
     TIMEOUT,

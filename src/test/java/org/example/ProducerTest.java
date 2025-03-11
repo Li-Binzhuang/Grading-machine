@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
+import org.example.VO.CodeType;
 import org.example.pojo.MQMessage;
 import org.junit.Test;
 
@@ -16,9 +17,9 @@ public class ProducerTest {
         producer.setNamesrvAddr("192.168.31.221:9876");
         producer.start();
         MQMessage python =new MQMessage();
-        python.setId(1);
+        python.setUserId(1);
         python.setCode("123");
-        python.setCodeType("python");
+        python.setCodeType(CodeType.PYTHON);
         python.setProblemId(1);
 
         // 使用Jackson序列化

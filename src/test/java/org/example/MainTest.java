@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import org.example.pojo.TestCase;
 
 
 @Slf4j
@@ -48,19 +48,29 @@ public class MainTest {
     DataConfig dataBaseConfig;
 
     @Test
-    public void testJdbc() {
-        try (
-                Connection localConn = DriverManager.getConnection(
-                        dataBaseConfig.url, dataBaseConfig.user, dataBaseConfig.password);
-                java.sql.Statement stmt = localConn.createStatement()) {
-                String sql = "select * from questions";
-                try (ResultSet rs = stmt.executeQuery(sql)) {
-                    while (rs.next()) {
-                        log.info(rs.toString());
-                    }
+    public void getTestCases() throws Exception {
+        List<TestCase> cases = new ArrayList<>();
+        String sql = "SELECT * FROM test_cases WHERE question_id = 3";
+
+        try (Connection conn = DriverManager.getConnection(
+                dataBaseConfig.url, dataBaseConfig.user, dataBaseConfig.password);
+             PreparedStatement stmt = conn.prepareStatement(sql);  // 改用预处理语句
+             ResultSet rs = stmt.executeQuery())  {
+
+            while (rs.next())  {
+                TestCase testCase = new TestCase();
+                testCase.setTestCaseId(rs.getInt("test_case_id"));
+                testCase.setInput(rs.getString("input"));
+                testCase.setExpectedOutput(rs.getString("expected_output"));
+                testCase.setQuestionId(rs.getLong("question_id"));  // bigint用getLong
+                log.info(testCase.toString());
+                cases.add(testCase);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // 建议添加错误处理逻辑
+            log.error("Database  error: {}", e.getMessage());
+            throw new Exception("ddd");
         }
+        return;
     }
 }
