@@ -1,57 +1,63 @@
 package org.example;
 
-import org.example.Config.DataBaseConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.example.Repository.RedissonService;
+import org.example.config.DataConfig;
+import org.example.config.RedissonConfig;
+import org.example.config.RocketMQConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 
+@Slf4j
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataBaseConfig.class})
+@ContextConfiguration(classes = {DataConfig.class, RedissonConfig.class, RocketMQConfig.class})
 public class MainTest {
-    private static final Logger logger = LoggerFactory.getLogger(MainTest.class);
-
-//    @Autowired
-//    RedissonClient redissonClient;
+    @Autowired
+    RedissonService redissonService;
 //
-//    @Autowired
-//    RedissonService redissonService;
+    @Test
+    public void testRedissonService(){
+        redissonService.setSingleValue("ab ab",String.valueOf(100));
+        Optional<String> abAb = redissonService.getSingleValue("ab ab");
+        log.info(abAb.toString());
+    }
 
-//    @Test
-//    public void testRedissonService(){
-//        System.out.println(redissonService.getSingleValue("ab ab"));
-//    }
+    @Autowired
+    RocketMQConfig rocketMQConfig;
+    @Test
+    public void testMQ(){
+        try {
+            rocketMQConfig.rocketMQConsumer().start();
+        } catch (MQClientException e) {
+            log.error(e.getMessage());
+        }
+    }
 
-//    @Autowired
-//    RocketMQConfig rocketMQConfig;
-//    @Test
-//    public void testMQ(){
-//        try {
-//            rocketMQConfig.rocketMQConsumer().start();
-//        } catch (MQClientException e) {
-//            logger.error(e.getMessage());
-//        }
-//    }
-
-    @Resource(name = "connection")
-    Connection conn;
+    @Autowired
+    DataConfig dataBaseConfig;
 
     @Test
-    public void testJdbc(){
-        try {
-            Object stmt = conn.createStatement();
-            String sql = "select * from questions";
-            ResultSet rs = ((java.sql.Statement) stmt).executeQuery(sql);
-            while (rs.next()) {
-                System.out.println(rs.getString("question_id") + " " + rs.getString("question_text") + " " + rs.getString("created_at") + " " + rs.getString("difficulty_level"));
+    public void testJdbc() {
+        try (
+                Connection localConn = DriverManager.getConnection(
+                        dataBaseConfig.url, dataBaseConfig.user, dataBaseConfig.password);
+                java.sql.Statement stmt = localConn.createStatement()) {
+                String sql = "select * from questions";
+                try (ResultSet rs = stmt.executeQuery(sql)) {
+                    while (rs.next()) {
+                        log.info(rs.toString());
+                    }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

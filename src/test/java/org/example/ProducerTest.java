@@ -1,23 +1,11 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.validator.Msg;
-import org.apache.rocketmq.client.consumer.MQConsumer;
-import org.apache.rocketmq.client.exception.MQBrokerException;
-import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.exception.RemotingException;
-import org.example.Config.RocketMQConfig;
 import org.example.pojo.MQMessage;
 import org.junit.Test;
-
-import java.io.Serializable;
 
 @Slf4j
 public class ProducerTest {

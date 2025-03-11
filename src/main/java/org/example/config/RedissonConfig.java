@@ -1,12 +1,12 @@
-package org.example.Config;
+package org.example.config;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.example.Repository.RedissonService;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +18,23 @@ import org.springframework.context.annotation.PropertySource;
 @Slf4j
 @PropertySource("classpath:application.properties")
 public class RedissonConfig {
+
+    @Getter
+    @Value("${redis.password}")
+    private String password;
+
+    @Value("${redis.host}")
+    private String host;
+
+    @Value("${redis.port}")
+    private String port;
+
+    @Value("${redis.database}")
+    @Getter
+    private Integer database;
+    public String getConnectURL(){
+        return  "redis://"+host + ":" + port;
+    }
 
     @Value("${redisson.threads}")
     private int threads;
@@ -31,19 +48,16 @@ public class RedissonConfig {
     @Value("${redisson.connectTimeout}")
     private int connectTimeout;
 
-    @Autowired
-    RedisConfig redisConfig;
 
-    @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();
         config.useSingleServer()
-              .setAddress(redisConfig.getConnectURL())
-              .setPassword(redisConfig.getPassword())
-              .setDatabase(redisConfig.getDatabase())
-              .setConnectionPoolSize(connectionPoolSize)
-              .setConnectionMinimumIdleSize(connectionMinimumIdleSize)
-              .setConnectTimeout(connectTimeout);
+                .setAddress(getConnectURL())
+                .setPassword(password)
+                .setDatabase(database)
+                .setConnectionPoolSize(connectionPoolSize)
+                .setConnectionMinimumIdleSize(connectionMinimumIdleSize)
+                .setConnectTimeout(connectTimeout);
         try{
             RedissonClient redissonClient=Redisson.create(config);
             log.info("redis客户端初始化成功");
@@ -52,5 +66,10 @@ public class RedissonConfig {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+    @Bean
+    public RedissonService redissonService(){
+        return new RedissonService(redissonClient());
     }
 }

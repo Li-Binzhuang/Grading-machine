@@ -12,12 +12,13 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Service
 public class RedissonService {
 
-    @Autowired
     private RedissonClient redissonClient;
 
+    public RedissonService(RedissonClient redissonClient){
+        this.redissonClient=redissonClient;
+    }
     /**
      * 设置Map中的键值对
      */

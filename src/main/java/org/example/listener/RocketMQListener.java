@@ -1,4 +1,4 @@
-package org.example.Listener;
+package org.example.listener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @Slf4j

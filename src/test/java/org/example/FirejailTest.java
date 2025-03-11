@@ -1,9 +1,8 @@
 package org.example;
 
 import org.example.Repository.RedissonService;
-import org.example.Config.RedisConfig;
-import org.example.Config.RedissonConfig;
-import org.example.Config.RocketMQConfig;
+import org.example.config.RedissonConfig;
+import org.example.config.RocketMQConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,7 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {RocketMQConfig.class, RedissonConfig.class, RedisConfig.class, RedissonService.class})
+@ContextConfiguration(classes = {RocketMQConfig.class, RedissonConfig.class, RedissonService.class})
 public class FirejailTest {
     @Test
     public void test() {
