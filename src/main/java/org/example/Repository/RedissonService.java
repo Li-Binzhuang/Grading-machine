@@ -1,5 +1,6 @@
-package org.example.Service;
+package org.example.Repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.redisson.api.RBucket;
@@ -10,10 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class RedissonService {
-
-    private static final Logger logger = LoggerFactory.getLogger(RedissonService.class);
 
     @Autowired
     private RedissonClient redissonClient;
@@ -26,7 +26,7 @@ public class RedissonService {
             RMap<String, String> map = redissonClient.getMap(mapName);
             map.put(key, value);
         } catch (Exception e) {
-            logger.error("Error setting key-value in map: {}", e.getMessage(), e);
+            log.error("Error setting key-value in map: {}", e.getMessage(), e);
         }
     }
 
@@ -38,7 +38,7 @@ public class RedissonService {
             RMap<String, String> map = redissonClient.getMap(mapName);
             return Optional.ofNullable(map.get(key));
         } catch (Exception e) {
-            logger.error("Error getting value for key from map: {}", e.getMessage(), e);
+            log.error("Error getting value for key from map: {}", e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -51,7 +51,7 @@ public class RedissonService {
             RBucket<String> bucket = redissonClient.getBucket(key);
             bucket.set(value);
         } catch (Exception e) {
-            logger.error("Error setting single value: {}", e.getMessage(), e);
+            log.error("Error setting single value: {}", e.getMessage(), e);
         }
     }
 
@@ -63,7 +63,7 @@ public class RedissonService {
             RBucket<String> bucket = redissonClient.getBucket(key);
             bucket.set(value, ttl, timeUnit);
         } catch (Exception e) {
-            logger.error("Error setting single value with TTL: {}", e.getMessage(), e);
+            log.error("Error setting single value with TTL: {}", e.getMessage(), e);
         }
     }
 
@@ -75,7 +75,7 @@ public class RedissonService {
             RBucket<String> bucket = redissonClient.getBucket(key);
             return Optional.ofNullable(bucket.get());
         } catch (Exception e) {
-            logger.error("Error getting single value: {}", e.getMessage(), e);
+            log.error("Error getting single value: {}", e.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -88,7 +88,7 @@ public class RedissonService {
             RBucket<String> bucket = redissonClient.getBucket(key);
             return bucket.delete();
         } catch (Exception e) {
-            logger.error("Error deleting key: {}", e.getMessage(), e);
+            log.error("Error deleting key: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -101,7 +101,7 @@ public class RedissonService {
             RBucket<String> bucket = redissonClient.getBucket(key);
             return bucket.isExists();
         } catch (Exception e) {
-            logger.error("Error checking if key exists: {}", e.getMessage(), e);
+            log.error("Error checking if key exists: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -117,7 +117,7 @@ public class RedissonService {
             // Here we assume you want to set the expiration on the entire map.
             map.expire(ttl, timeUnit);
         } catch (Exception e) {
-            logger.error("Error setting key-value with TTL in map: {}", e.getMessage(), e);
+            log.error("Error setting key-value with TTL in map: {}", e.getMessage(), e);
         }
     }
 
@@ -129,7 +129,7 @@ public class RedissonService {
             RMap<String, String> map = redissonClient.getMap(mapName);
             return map.size();
         } catch (Exception e) {
-            logger.error("Error getting size of map: {}", e.getMessage(), e);
+            log.error("Error getting size of map: {}", e.getMessage(), e);
             return -1;
         }
     }
@@ -142,7 +142,7 @@ public class RedissonService {
             RMap<String, String> map = redissonClient.getMap(mapName);
             map.clear();
         } catch (Exception e) {
-            logger.error("Error clearing map: {}", e.getMessage(), e);
+            log.error("Error clearing map: {}", e.getMessage(), e);
         }
     }
 }

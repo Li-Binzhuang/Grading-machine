@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.Service.RedissonService;
+import org.example.Repository.RedissonService;
 import org.example.Config.RedisConfig;
 import org.example.Config.RedissonConfig;
 import org.example.Config.RocketMQConfig;

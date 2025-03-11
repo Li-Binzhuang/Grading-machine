@@ -1,21 +1,29 @@
 package org.example.Listener;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerOrderly;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.example.pojo.MQMessage;
+import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
+@Component
 @Slf4j
-public class RocketMQListener implements MessageListenerOrderly {
-    @Override
+public class RocketMQListener implements MessageListenerOrderly {// 顺序消费
+    RedissonClient redissonClient;
+    Connection conn;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
     public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
-        // 设置为暂停消费，直到当前消息被完全处理
-        context.setAutoCommit(false);
         try {
             for (MessageExt msg : msgs) {
-                log.info("消费消息：" + new String(msg.getBody()));
+                MQMessage mqMessage = objectMapper.readValue(msg.getBody(), MQMessage.class);
+                log.info("获取的消息："+mqMessage.toString());
             }
             return ConsumeOrderlyStatus.SUCCESS;
         } catch (Exception e) {

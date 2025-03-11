@@ -10,6 +10,4 @@ public class ResourceUsage{
     private long peakMemoryBytes;
     private long cpuTimeMillis;
     private long wallTimeMillis;
-    private boolean timedOut;
-    private boolean memoryLimitExceeded;
 }
