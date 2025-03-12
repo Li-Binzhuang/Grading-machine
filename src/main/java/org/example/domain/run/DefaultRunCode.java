@@ -11,12 +11,13 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 public abstract class DefaultRunCode implements RunCodeCompile {
     String fireJailArg=new String("firejail --noprofile --net=none --cpu=1 ");
     public Result<String> runCode(Path afterCompileFilePath, List<TestCase> testCases) {
         //排除目标文件夹
-        fireJailArg+="--whilelist "+afterCompileFilePath.toAbsolutePath();
+        fireJailArg+="--whilelist "+ afterCompileFilePath.toAbsolutePath();
         // 准备命令行参数
         List<String> baseCommand = new ArrayList<>(Arrays.asList(fireJailArg.split("  ")));
         baseCommand.addAll(Arrays.asList(prepareLanguageRunArg().split("  ")));
@@ -43,14 +44,15 @@ public abstract class DefaultRunCode implements RunCodeCompile {
 
                 // 时间统计
                 long startTime = System.nanoTime();
-                int exitCode = process.waitFor();
+                // 等待进程执行完成 ,2S内需要完成
+                boolean exitCode = process.waitFor(2,  TimeUnit.SECONDS);
                 long executionTime = (System.nanoTime()  - startTime) / 1_000_000;
 
                 // 内存统计
                 long memoryUsage = getProcessMemory(process);
 
                 // 错误处理逻辑
-                if (exitCode != 0) {
+                if (!exitCode) {
                     String errorMsg = new BufferedReader(new InputStreamReader(process.getErrorStream()))
                             .lines().collect(Collectors.joining("\n"));
                     return Result.error("Runtime  Error",

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="lili@192.168.31.221:22" type="ssh/sftp" uuid="4bbd86b2-726f-42ab-9ef2-734752d7fe81">
+        <config>
+          <option name="projectRootOnTarget" value="/home/lili/Grading-machine" />
+          <option name="serverName" value="lili@192.168.31.221:22 password" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="/usr/bin/java" />
+            <option name="javaVersionString" value="17.0.14" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
