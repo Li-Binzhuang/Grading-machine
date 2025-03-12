@@ -13,4 +13,6 @@ public class Status {
     public static final String MEMORY_LIMIT_EXCEEDED = "Memory Limit Exceeded";
     public static final String RUNTIME_ERROR = "Runtime Error";
     public static final String COMPILE_ERROR = "Compile Error";
+    public static final String SYSTEM_ERROR = "system error";
+    public static final String SUCCESS = "success";
 }
