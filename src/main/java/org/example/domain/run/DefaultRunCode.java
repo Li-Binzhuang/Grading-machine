@@ -1,5 +1,6 @@
 package org.example.domain.run;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.Repository.pojo.TestCase;
 import org.example.domain.VO.Result;
 import org.example.domain.VO.Status;
@@ -10,18 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+@Slf4j
 public abstract class DefaultRunCode implements RunCodeCompile {
     String fireJailArg=new String("firejail --noprofile --net=none --cpu=1 ");
     public Result<String> runCode(Path afterCompileFilePath, List<TestCase> testCases) {
         //排除目标文件夹
-        fireJailArg+="--whilelist "+ afterCompileFilePath.toAbsolutePath();
+        fireJailArg+="--whitelist="+ afterCompileFilePath.toAbsolutePath();
         // 准备命令行参数
-        List<String> baseCommand = new ArrayList<>(Arrays.asList(fireJailArg.split("  ")));
-        baseCommand.addAll(Arrays.asList(prepareLanguageRunArg().split("  ")));
-        baseCommand.add(afterCompileFilePath.toString());
+        List<String> baseCommand = new ArrayList<>(Arrays.asList(fireJailArg.split(" ")));
+        baseCommand.addAll(Arrays.asList(prepareLanguageRunArg().split(" ")));
+        baseCommand.add(afterCompileFilePath.toAbsolutePath().toString());
 
         for (TestCase testCase : testCases) {
             ProcessBuilder processBuilder = new ProcessBuilder(baseCommand);
